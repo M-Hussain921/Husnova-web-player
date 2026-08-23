@@ -10,6 +10,7 @@ import { PlaylistDetailPage } from "../pages/PlaylistDetailPage.jsx";
 import { ProtectedRoutes } from "../auth/ProtectedRoute.jsx";
 import { AuthForm } from "../components/AuthForm.jsx";
 import { YourPlaylistsPage } from "../pages/YourPlaylist.jsx";
+import { CreatePlaylistPage } from "../components/CreatePlaylistpage.jsx";
 
 export const AppRoute = () => {
   return (
@@ -31,6 +32,15 @@ export const AppRoute = () => {
           element={
             <ProtectedRoutes>
               <YourFavoritesPage />
+            </ProtectedRoutes>
+          }
+        />
+
+        <Route
+          path="create-playlist"
+          element={
+            <ProtectedRoutes>
+              <CreatePlaylistPage />
             </ProtectedRoutes>
           }
         />

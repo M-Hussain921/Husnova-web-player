@@ -563,13 +563,14 @@ export function MusicProvider({ children }) {
     }
   };
 
-  const createPlaylist = async (name, token) => {
+  const createPlaylist = async (name) => {
     try {
       const data = await authFetch(`${BACKEND_API}/create-playlist`, token, {
         method: "POST",
         body: JSON.stringify({ name }),
       });
       setPlaylists((prev) => [...prev, data.data]);
+      return data?.data;
     } catch (error) {
       console.error("create playlist error:", error);
     }

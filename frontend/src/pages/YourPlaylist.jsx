@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { MusicContext } from "../context/MusicContext";
 import { FiMusic, FiPlus } from "react-icons/fi";
-import placeholder from "../assets/images/album-placeholder.png"
+import placeholder from "../assets/images/album-placeholder.png";
 
 export const YourPlaylistsPage = () => {
   const { playlists } = useContext(MusicContext);
@@ -23,7 +23,7 @@ export const YourPlaylistsPage = () => {
         </div>
 
         <button
-          onClick={() => navigate("/add-playlist")}
+          onClick={() => navigate("/create-playlist")}
           className="flex  justify-center items-center  gap-2 px-4 py-1.5 sm:px-5 sm:py-2 text-sm sm:text-base bg-brand-primary text-white rounded-full font-semibold hover:scale-105 transition"
         >
           <FiPlus className="text-sm sm:text-lg" />
@@ -62,15 +62,13 @@ export const YourPlaylistsPage = () => {
               className="text-left min-w-0 group"
             >
               <div className="relative w-full aspect-square rounded-xl bg-zinc-800 overflow-hidden">
-                            <img
-                              src={placeholder}
-                              className="w-full h-full object-cover group-hover:scale-110 transition duration-300"
-                            />
-                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-                            <div className="absolute bottom-1 right-6 flex gap-2 sm:gap-9 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 z-10 transition-opacity pointer-events-none sm:pointer-events-auto">
-                              
-                            </div>
-                          </div>
+                <img
+                  src={placeholder}
+                  className="w-full h-full object-cover group-hover:scale-110 transition duration-300"
+                />
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+                <div className="absolute bottom-1 right-6 flex gap-2 sm:gap-9 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 z-10 transition-opacity pointer-events-none sm:pointer-events-auto"></div>
+              </div>
 
               <div className="mt-2 sm:mt-3 min-w-0">
                 <p className="text-sm sm:text-base font-semibold text-text-primary truncate">
