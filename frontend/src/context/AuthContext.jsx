@@ -2,7 +2,7 @@ import { useState, createContext } from "react";
 
 export const AuthContext = createContext();
 
-const API_BASE ="https://ain-music.onrender.com/api/auth"
+const API_BASE ="https://husnova-web-player.onrender.com/api/auth"
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(
