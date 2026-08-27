@@ -10,7 +10,13 @@ import userRoutes from "./routes/user.routes.js";
 import apiRoutes from "./routes/api.routes.js";
 
 const app = express();
-app.use(cors());
+app.use(
+  cors(
+    "https://localhost:5173",
+    "https://husnova-web-player.vercel.app/",
+    "https://husnovaweb.netlify.app/",
+  ),
+);
 app.use(express.json());
 
 app.get("/", (req, res) => {
