@@ -12,7 +12,7 @@ import { runInBatches } from "../utils/runInBatches";
 
 export const MusicContext = createContext();
 
-const BASE_URL = "https://husnova-web-player.onrender.com/";
+const BASE_URL = "https://husnova-web-player.onrender.com";
 const BACKEND_API = `${BASE_URL}/user`;
 
 async function fetchSongsByQuery(query, limit = 10) {
