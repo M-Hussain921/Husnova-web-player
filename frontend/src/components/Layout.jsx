@@ -4,13 +4,13 @@ import { Sidebar } from "./Sidebar";
 import { Navbar } from "./Navbar";
 import { Player } from "./Player";
 import { Footer } from "./Footer";
-import { Loader } from "./loader";
+import { Loader } from "./Loader";
 import { MusicContext } from "../context/MusicContext";
 export const Layout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const {loading}=useContext(MusicContext);
+  const { loading } = useContext(MusicContext);
 
-  if(loading) return <Loader/>;
+  if (loading) return <Loader />;
 
   const onMenuClick = () => {
     setSidebarOpen(true);
