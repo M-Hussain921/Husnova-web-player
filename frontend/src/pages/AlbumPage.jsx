@@ -4,7 +4,6 @@ import { AlbumPlayButton } from "../components/AlbumPlayButton";
 import { FavoriteButton } from "../components/FavoriteButton";
 import { AlbumCard } from "../components/AlbumCard";
 
-
 export const AlbumPage = () => {
   const { homeContent } = useContext(MusicContext);
 

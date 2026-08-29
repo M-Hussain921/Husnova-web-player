@@ -6,6 +6,7 @@ import { formatTime } from "../utils/SongDuration.js";
 import { FavoriteButton } from "./FavoriteButton.jsx";
 import { SongsList } from "./SongsList.jsx";
 import { ForwardBackButton } from "./ForwordBackButton.jsx";
+import { PageLoading } from "./PageLoading.jsx";
 
 export const AlbumDetailPage = () => {
   const { id } = useParams();
@@ -43,7 +44,7 @@ export const AlbumDetailPage = () => {
   }, [id]);
 
   if (loading) {
-    return <div className="p-4 sm:p-6 text-text-primary">Loading album...</div>;
+    return <PageLoading />;
   }
 
   if (!album) {

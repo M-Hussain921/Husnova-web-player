@@ -5,7 +5,7 @@ import { Navigate } from "react-router-dom";
 
 export const AlbumCard = ({ title, albums }) => {
   const navigate = useNavigate();
-  
+
   if (!albums || albums.length === 0) return null;
 
   return (

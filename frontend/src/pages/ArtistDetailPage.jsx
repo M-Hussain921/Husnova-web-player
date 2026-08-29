@@ -5,6 +5,7 @@ import { AlbumCard } from "../components/AlbumCard";
 import { SongsList } from "../components/SongsList";
 import { FavoriteButton } from "../components/FavoriteButton";
 import { ForwardBackButton } from "../components/ForwordBackButton";
+import { PageLoading } from "../components/PageLoading";
 
 export const ArtistDetailPage = () => {
   const { id } = useParams();
@@ -34,7 +35,7 @@ export const ArtistDetailPage = () => {
     }
   }, [artist]);
 
-  if (loading) return <p className="p-6">Loading...</p>;
+  if (loading) return <PageLoading />;
   if (!artist) return <p className="p-6">Artist not found.</p>;
 
   const hasBio = Boolean(artist.bio);
@@ -104,8 +105,9 @@ export const ArtistDetailPage = () => {
         />
       )}
 
-
-      {activeTab === "albums" && <AlbumCard albums={artist.topAlbums} />}
+      {activeTab === "albums" && (
+        <AlbumCard albums={artist.topAlbums} loading={loading} />
+      )}
 
       <div>
         <h2 className="m-auto text-center text-text-secondary text-base sm:text-xl font-semibold mt-10 px-2">

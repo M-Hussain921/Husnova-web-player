@@ -214,6 +214,7 @@ export function MusicProvider({ children }) {
     playlists: [],
   });
   const [isPlaying, setIsPlaying] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [likedSongs, setLikedSongs] = useState([]);
   const [likedArtists, setLikedArtists] = useState([]);
@@ -350,6 +351,7 @@ export function MusicProvider({ children }) {
   };
 
   const loadHomePageContent = async () => {
+    setLoading(true)
     try {
       const [
         weeklyTop,
@@ -486,10 +488,13 @@ export function MusicProvider({ children }) {
       });
     } catch (error) {
       console.error("Home content fetching error", error);
+    } finally{
+      setLoading(false)
     }
   };
 
   const searchMusic = async (query) => {
+    setLoading(true)
     if (!query.trim()) {
       setSearchResults({ songs: [], artists: [], playlists: [] });
       return;
@@ -503,6 +508,8 @@ export function MusicProvider({ children }) {
       setSearchResults({ songs, artists, playlists });
     } catch (error) {
       console.error("Search error", error);
+    } finally{
+      setLoading(false)
     }
   };
 
@@ -605,6 +612,22 @@ export function MusicProvider({ children }) {
   }, []);
 
   useEffect(() => {
+    const loadInitialData = async () => {
+      try {
+        setLoading(true);
+
+        await loadHomePageContent();
+      } catch (error) {
+        console.error("Initial data loading error:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadInitialData();
+  }, []);
+
+  useEffect(() => {
     if (!token) return;
     const fetchUserData = async () => {
       try {
@@ -667,6 +690,7 @@ export function MusicProvider({ children }) {
         playArtistSongs,
         fetchSongById,
         toggleFavorite,
+        loading
       }}
     >
       {children}
