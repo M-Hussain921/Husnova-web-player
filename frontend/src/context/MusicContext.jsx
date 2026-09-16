@@ -494,7 +494,7 @@ export function MusicProvider({ children }) {
   };
 
   const searchMusic = async (query) => {
-    setLoading(true)
+    // setLoading(true)
     if (!query.trim()) {
       setSearchResults({ songs: [], artists: [], playlists: [] });
       return;
@@ -508,9 +508,7 @@ export function MusicProvider({ children }) {
       setSearchResults({ songs, artists, playlists });
     } catch (error) {
       console.error("Search error", error);
-    } finally{
-      setLoading(false)
-    }
+    } 
   };
 
   const toggleFavorite = async (item, type, token, extra = {}) => {
