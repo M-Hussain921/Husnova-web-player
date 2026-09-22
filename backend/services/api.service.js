@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 import { formatArtist } from "../helper/formatArtist.js";
 
-const SAAVN_API = "https://jiosaavn-api-vmd8.onrender.com/api";
+const SAAVN_API = "https://jiosaavn-api-mnfa.onrender.com/";
 
 const cache = new Map();
 
