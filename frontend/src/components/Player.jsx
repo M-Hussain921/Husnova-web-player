@@ -110,6 +110,28 @@ export const Player = ({ song }) => {
     };
   }, [currentSong]);
 
+  const titleRef = useRef(null);
+const titleContainerRef = useRef(null);
+const [isTitleOverflowing, setIsTitleOverflowing] = useState(false);
+
+useEffect(() => {
+  const title = titleRef.current;
+  const container = titleContainerRef.current;
+
+  if (!title || !container) return;
+
+  const checkOverflow = () => {
+    setIsTitleOverflowing(title.scrollWidth > container.clientWidth);
+  };
+
+  checkOverflow();
+
+  const observer = new ResizeObserver(checkOverflow);
+  observer.observe(container);
+
+  return () => observer.disconnect();
+}, [currentSong]);
+
   const handlePreviousClick = () => {
     const audio = audioRef.current;
     if (!restartedRef.current) {
@@ -143,27 +165,133 @@ export const Player = ({ song }) => {
 
   return (
     <>
-      <audio ref={audioRef} src={currentSong?.audioUrl || " "} />
+      <audio ref={audioRef} />
+      <div
+        className="relative
+         w-full
+    m-auto
+    min-h-[88px]
+    min-[648px]:h-[5.625rem]
+    py-2
+    min-[648px]:py-0
+    px-2
+    min-[648px]:px-5
+    bg-surface
+    border-t
+    rounded-t-3xl
+    border-brand-light/40
+    flex
+    flex-col
+    min-[648px]:flex-row
+    items-center
+    justify-center
+    min-[648px]:justify-between
+    gap-2
+    min-[648px]:gap-3
+    z-[950]"
+      >
+        <div
+          className="
+    absolute
+    left-0
+    bottom-full
+    mb-2
+    flex
+    items-center
+    gap-2
+    bg-surface/30
+    backdrop-blur
+    rounded-r-xl
+    px-2
+    py-1.5
+    shadow-lg
+    min-w-0
+    min-[648px]:static
+    min-[648px]:mb-0
+    min-[648px]:gap-4
+    min-[648px]:w-auto
+    min-[648px]:min-w-45
 
-      <div className="w-full m-auto h-auto min-h-20 sm:h-[5.625rem] py-1.5 sm:py-0  bg-surface border-t rounded-t-3xl border-brand-light/40 px-2 sm:px-5 flex items-center justify-between gap-2 sm:gap-3 z-[950]">
-        <div className="flex items-center gap-2 sm:gap-4 max-w-20 xs:max-w-28 sm:max-w-45 min-w-0 sm:min-w-45 flex-shrink-0">
+    min-[648px]:border-0
+    min-[648px]:bg-transparent
+    min-[648px]:rounded-none
+    min-[648px]:px-0
+    min-[648px]:py-0
+    min-[648px]:shadow-none
+
+    flex-shrink-0
+  "
+        >
           <img
             src={currentSong.coverArt}
             alt={currentSong.title}
-            className="w-10 h-10 sm:w-14 sm:h-14 rounded-md object-cover shadow-sm"
+            className={`
+    w-10 h-10
+    min-[648px]:w-14 min-[648px]:h-14
+    rounded-full
+    object-cover
+    shadow-sm
+    shrink-0
+    song-cover
+    ${isPlaying ? "song-cover-playing" : ""}
+  `}
           />
           <div className="flex flex-col justify-center ">
-            <p className="text-xs sm:text-sm text-text-primary font-bold truncate max-w-[80px] sm:max-w-37.5 cursor-pointer hover:underline">
-              {currentSong.title}
-            </p>
-            <p className="text-xs text-text-secondary truncate max-w-37.5 cursor-pointer hover:underline">
+          <div className="max-w-[160px] min-[648px]:max-w-37.5 overflow-hidden">
+  <p
+    className={`
+      song-title-track
+      text-xs
+      min-[648px]:text-sm
+      text-text-primary
+      font-bold
+
+      ${
+        isPlaying
+          ? "song-title-animated"
+          : "song-title-paused"
+      }
+    `}
+  >
+    {currentSong.title}
+  </p>
+</div>
+            <p
+              className="
+    text-xs
+    text-text-secondary
+    truncate
+    max-w-[160px]
+    min-[648px]:max-w-37.5
+    cursor-pointer
+    hover:underline"
+            >
               {currentSong.artist}
             </p>
           </div>
         </div>
 
-        <div className="flex flex-col items-center justify-center flex-1 sm:flex-none sm:w-[40%] max-w-150 gap-2">
-          <div className="flex items-center gap-1.5 @max-xs:gap-2 sm:gap-6 flex-wrap justify-center">
+        <div
+          className="
+    flex
+    flex-col
+    items-center
+    justify-center
+    w-full
+    min-[648px]:w-[40%]
+    max-w-150
+    gap-2"
+        >
+          <div
+            className="
+    flex
+    items-center
+    justify-center
+    gap-4
+    min-[648px]:gap-6
+    w-full"
+          >
+            <FavoriteButton item={currentSong} type="song" />
             <FiShuffle
               onClick={shuffleQueue}
               className={`cursor-pointer text-lg transition 
@@ -180,7 +308,21 @@ export const Player = ({ song }) => {
 
             <button
               onClick={() => setIsPlaying(!isPlaying)}
-              className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center bg-brand-primary text-white rounded-full hover:scale-105 hover:bg-brand-dark transition-all shadow-md shadow-brand-primary/30"
+              className="
+  w-8
+  h-8
+  min-[648px]:w-10
+  min-[648px]:h-10
+  flex
+  items-center
+  justify-center
+  bg-brand-primary
+  text-white
+  rounded-full
+  hover:scale-105
+  hover:bg-brand-dark
+  transition-all
+"
             >
               {isPlaying ? (
                 <FiPause className="text-xl" />
@@ -194,29 +336,7 @@ export const Player = ({ song }) => {
               className="text-text-secondary hover:text-text-primary cursor-pointer text-xl transition hover:scale-105"
             />
             <FiRepeat className="text-text-secondary hover:text-brand-primary cursor-pointer text-lg transition" />
-          </div>
-
-          <div className="flex items-center gap-2 w-full ">
-            <span className="text-[10px] sm:text-xs text-text-secondary w-6 sm:w-10 shrink-0 text-right font-medium">
-              {formatTime(progress)}
-            </span>
-            <input
-              type="range"
-              min={0}
-              max={duration || 0}
-              value={progress}
-              onChange={handleSeek}
-              className="flex-1 h-1.5 bg-brand-light/30 rounded-full appearance-none cursor-pointer accent-brand-primary hover:accent-brand-dark transition"
-            />
-            <span className="text-xs text-text-secondary w-10 text-left font-medium">
-              {formatTime(duration)}
-            </span>
-          </div>
-        </div>
-
-        <div className="flex justify-center items-center gap-1.5 sm:gap-5 pr-1 sm:pr-5 shrink-0">
-          <FavoriteButton item={currentSong} type="song" />
-          <div className="relative">
+            <div className="relative">
             <AddToPlaylistButton onClick={handleAddClick} />
 
             {menuOpen && (
@@ -233,6 +353,69 @@ export const Player = ({ song }) => {
               </div>
             )}
           </div>
+          </div>
+
+          <div className="flex items-center gap-2 w-full ">
+            <span
+              className="
+    text-[10px]
+    min-[648px]:text-xs
+    text-text-secondary
+    w-6
+    min-[648px]:w-10
+    shrink-0
+    text-right
+    font-medium
+  "
+            >
+              {formatTime(progress)}
+            </span>
+            <input
+              type="range"
+              min={0}
+              max={duration || 0}
+              value={progress}
+              onChange={handleSeek}
+              className="flex-1 h-1.5 bg-brand-light/30 rounded-full appearance-none cursor-pointer accent-brand-primary hover:accent-brand-dark transition"
+            />
+            <span
+              className="
+    text-[10px]
+    min-[648px]:text-xs
+    text-text-secondary
+    w-10
+    text-left
+    font-medium
+  "
+            >
+              {formatTime(duration)}
+            </span>
+          </div>
+        </div>
+
+        <div
+          className="
+    flex
+    justify-center
+    items-center
+
+    gap-3
+    min-[648px]:gap-5
+
+    pr-1
+    min-[648px]:pr-5
+
+    shrink-0
+
+    absolute
+    top-3
+    right-2
+
+    min-[648px]:static
+  "
+        >
+          
+          
         </div>
       </div>
     </>

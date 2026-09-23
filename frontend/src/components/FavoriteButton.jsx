@@ -5,8 +5,14 @@ import { AuthContext } from "../context/AuthContext";
 import { AuthModalContext } from "../context/AuthModalContext";
 
 export const FavoriteButton = ({ item, type }) => {
-  const { likedSongs, likedArtists, savedAlbums, playlists, toggleFavorite } =
-    useContext(MusicContext);
+  const {
+    likedSongs,
+    likedArtists,
+    savedAlbums,
+    playlists,
+    toggleFavorite,
+  } = useContext(MusicContext);
+
   const { token } = useContext(AuthContext);
   const { requireAuth } = useContext(AuthModalContext);
 
@@ -14,12 +20,16 @@ export const FavoriteButton = ({ item, type }) => {
     switch (type) {
       case "song":
         return likedSongs;
+
       case "artist":
         return likedArtists;
+
       case "album":
         return savedAlbums;
+
       case "playlist-song":
         return playlists;
+
       default:
         return [];
     }
@@ -33,20 +43,62 @@ export const FavoriteButton = ({ item, type }) => {
 
   const handleClick = (e) => {
     e.stopPropagation();
-    requireAuth(() => toggleFavorite(item, type, token));
+
+    requireAuth(() => {
+      toggleFavorite(item, type, token);
+    });
   };
 
   return (
     <button
       onClick={handleClick}
-      className={`w-6 h-6 xs:w-8 xs:h-8 sm:w-10 sm:h-10 flex items-center justify-center sm:hover:scale-105 sm:hover:bg-brand-dark  text-white rounded-full hover:scale-105 hover:bg-brand-dark transition-all disabled:opacity-60 ${isFavorite ? "bg-black/30 sm:bg-transparent" : "bg-brand-primary"}`}
+      className="
+        w-7 h-7
+        min-[648px]:w-8
+        min-[648px]:h-8
+
+        flex
+        items-center
+        justify-center
+
+        rounded-full
+
+        bg-brand-darkest/30
+        backdrop-blur-sm
+
+        transition-all
+        duration-200
+
+        hover:bg-brand-primary/15
+        hover:border-brand-primary/60
+        hover:scale-105
+
+        active:scale-95
+      "
+      aria-label={
+        isFavorite
+          ? "Remove from favorites"
+          : "Add to favorites"
+      }
     >
       {isFavorite ? (
         <FaHeart
-          className={`text-xs xs:text-sm sm:text-lg transition ${isFavorite ? " fill-brand-primary scale-110" : "text-text-secondary hover:text-text-primary"}`}
+          className="
+            text-sm
+            min-[648px]:text-base
+            text-brand-primary
+          "
         />
       ) : (
-        <FaRegHeart className="text-xs xs:text-sm sm:text-lg" />
+        <FaRegHeart
+          className="
+            text-sm
+            min-[648px]:text-base
+            text-text-secondary
+            hover:text-brand-primary
+            transition-colors
+          "
+        />
       )}
     </button>
   );

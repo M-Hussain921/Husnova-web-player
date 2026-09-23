@@ -63,3 +63,54 @@ body {
     height: 28px;
   }
 }
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.song-cover {
+  animation: spin 6s linear infinite;
+  animation-play-state: paused;
+}
+
+.song-cover-playing {
+  animation-play-state: running;
+}
+
+@keyframes song-title-scroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  10% {
+    transform: translateX(0);
+  }
+
+  90% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.song-title-track {
+  width: max-content;
+  white-space: nowrap;
+}
+
+.song-title-animated {
+  animation: song-title-scroll 8s linear infinite;
+  animation-play-state: running;
+}
+
+.song-title-paused {
+  animation-play-state: paused;
+}
