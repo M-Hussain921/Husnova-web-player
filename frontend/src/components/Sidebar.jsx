@@ -1,74 +1,228 @@
-import React from "react";
+import { useRef } from "react";
 import {
   FiHome,
   FiDisc,
   FiUsers,
   FiHeart,
   FiList,
+  FiMusic,
+  FiX,
 } from "react-icons/fi";
 import { NavLink } from "react-router-dom";
+
 import BrandLogo from "../assets/brand-logo.png";
 import { useClickOutside } from "../hooks/useClickOutside.js";
-import { useRef } from "react";
 
-export const Sidebar = ({ isOpen, onClose, setSidebarOpen }) => {
+export const Sidebar = ({ isOpen, onClose }) => {
   const sidebarRef = useRef(null);
+
   useClickOutside(sidebarRef, onClose, isOpen);
 
   const menuSections = [
     {
+      title: "Library",
       links: [
-        { name: "Home", icon: <FiHome />, to: "/" },
-        { name: "Albums", icon: <FiDisc />, to: "/albums" },
-        { name: "Artists", icon: <FiUsers />, to: "/artists" },
-        { name: "My Playlist", icon: <FiList />, to: "/your-playlists" },
-        { name: "My Favorites", icon: <FiHeart />, to: "/your-favorites" },
+        {
+          name: "Home",
+          icon: FiHome,
+          to: "/",
+        },
+        {
+          name: "Albums",
+          icon: FiDisc,
+          to: "/albums",
+        },
+        {
+          name: "Artists",
+          icon: FiUsers,
+          to: "/artists",
+        },
+      ],
+    },
+    {
+      title: "Your Music",
+      links: [
+        {
+          name: "My Playlist",
+          icon: FiList,
+          to: "/your-playlists",
+        },
+        {
+          name: "My Favorites",
+          icon: FiHeart,
+          to: "/your-favorites",
+        },
       ],
     },
   ];
 
   return (
     <>
-      {isOpen && (
-        <div className="fixed inset-0 bg-black/50 z-[900] lg:hidden" />
-      )}
-
       <aside
         ref={sidebarRef}
-        className={`w-44 sm:w-60 bg-surface h-screen h-dvh text-text-secondary p-2.5 sm:p-4 flex flex-col border-r border-brand-light/30 overflow-y-auto 
-          fixed top-0 left-0 z-[1001] transition-transform duration-300
-          ${isOpen ? "translate-x-0" : "-translate-x-full"}
-          md:static md:translate-x-0 md:z-auto`}
+        className={`
+          fixed
+          top-0
+          left-0
+          z-[1001]
+          w-60
+          bg-surface
+          border-brand-light/20
+          flex
+          flex-col
+          rounded-br-2xl
+          overflow-hidden
+          transition-transform
+          duration-300
+          ease-out
+          ${isOpen ? "translate-x-0" : "-translate-x-[calc(100%+1rem)]"}
+          lg:translate-x-0
+          lg:z-40
+        `}
       >
-        <div className="mb-3 p-2">
-          <img src={BrandLogo} alt="Ain Music" className="w-55 sm:w-full h-auto mx-auto" />
+        <div
+          className="
+            relative
+            flex
+            items-center
+            justify-center
+
+            px-4
+            py-4
+
+            border-b
+            border-brand-light/15
+          "
+        >
+          <img
+            src={BrandLogo}
+            alt="Husnova"
+            className="
+              w-36
+              h-auto
+              object-contain
+            "
+          />
         </div>
-        <div className="flex flex-col space-y-3 sm:space-y-5">
-          {menuSections.map((section, sIndex) => (
-            <div key={sIndex}>
+
+        <nav
+          className="
+            flex-1
+            overflow-y-auto
+            px-3
+            py-4
+            scrollbar-thin
+          "
+        >
+          {menuSections.map((section) => (
+            <div key={section.title} className="mb-6 last:mb-0">
+              <p
+                className="
+                  px-3
+                  mb-2
+                  text-[10px]
+                  font-semibold
+                  uppercase
+                  tracking-[0.14em]
+                  text-text-secondary/60
+                "
+              >
+                {section.title}
+              </p>
+
               <ul className="space-y-1">
-                {section.links.map((link, lIndex) => (
-                  <li key={lIndex}>
-                    <NavLink
-                      to={link.to}
-                      end={link.to === "/"}
-                      onClick={onClose}
-                      className={({ isActive }) =>
-                        `flex items-center px-2.5 sm:px-3 py-1 sm:py-1.5 text-xs sm:text-sm md:text-base truncate cursor-pointer transition-all duration-300 rounded-xl font-medium ${
-                          isActive
-                            ? "text-white "
-                            : "text-text-secondary hover:text-text-primary "
-                        }`
-                      }
-                    >
-                      <span className="mr-2 sm:mr-3 text-base sm:text-lg">{link.icon}</span>
-                      {link.name}
-                    </NavLink>
-                  </li>
-                ))}
+                {section.links.map((link) => {
+                  const Icon = link.icon;
+
+                  return (
+                    <li key={link.to}>
+                      <NavLink
+                        to={link.to}
+                        end={link.to === "/"}
+                        onClick={onClose}
+                        className={({ isActive }) =>
+                          `
+                            group
+                            flex
+                            items-center
+                            gap-2.5
+                            w-full
+                            px-2
+                            py-1.5
+                            rounded-xl
+                            text-sm
+                            font-medium
+                            transition-all
+                            duration-200
+                           
+                          `
+                        }
+                      >
+                        {({ isActive }) => (
+                          <>
+                            <span
+                              className={`
+                                relative
+                                shrink-0
+                                flex
+                                items-center
+                                justify-center
+                                rounded-lg
+                                transition-all
+                                duration-200
+                                ${
+                                  isActive
+                                    ? `
+                                      text-white
+                                    `
+                                    : `
+                                      text-text-secondary
+                                    `
+                                }
+                              `}
+                            >
+                              <Icon className="text-[17px]" />
+                            </span>
+
+                            <span className={`truncate  ${
+                                  isActive
+                                    ? `
+                                      text-white
+                                    `
+                                    : `
+                                      text-text-secondary
+                                    `
+                                }`}>{link.name}</span>
+                          </>
+                        )}
+                      </NavLink>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ))}
+        </nav>
+
+        <div
+          className="
+            px-4
+            py-2
+
+            border-t
+            border-brand-light/15
+          "
+        >
+          <div
+            className="
+              flex
+              items-center
+              gap-2
+
+              text-[11px]
+              text-text-secondary/50
+            "
+          ></div>
         </div>
       </aside>
     </>
