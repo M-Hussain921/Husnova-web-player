@@ -11,7 +11,7 @@ export const SongCard = ({ song }) => {
           className="w-full h-full object-cover group-hover:scale-110 transition duration-300"
         />
         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-        <div className="absolute bottom-1 right-6 flex gap-2 sm:gap-9 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 z-10 transition-opacity pointer-events-none sm:pointer-events-auto">
+        <div className="absolute bottom-1 right-6 flex gap-2 sm:gap-9 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 z-10 transition-opacity" onClick={(e) => e.stopPropagation()}>
           <FavoriteButton item={song} type="song" />
           <PlayButton song={song} />
         </div>
