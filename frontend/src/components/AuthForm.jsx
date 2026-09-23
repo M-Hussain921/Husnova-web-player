@@ -1,15 +1,25 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
+import { useClickOutside } from "../hooks/useClickOutside";
 
 export const AuthForm = ({ onClose }) => {
   const { sendOTP, verifyOTP, loading, error } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
-  const handleOnClose =
-    onClose || (() => navigate("/", { replace: true }));
+  const formRef = useRef(null);
+
+  const handleOnClose = () => {
+    if (onClose) {
+      onClose();
+    } else {
+      navigate("/", { replace: true });
+    }
+  };
+
+  useClickOutside(formRef, handleOnClose);
 
   const [step, setStep] = useState("email");
   const [email, setEmail] = useState("");
@@ -50,16 +60,24 @@ export const AuthForm = ({ onClose }) => {
   };
 
   return createPortal(
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center px-4 z-[2000]">
-      <div className="bg-surface p-4 sm:p-6 rounded-xl border border-white/20 shadow-2xl shadow-black/20 w-[90%] max-w-96">
-
+    <div
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) {
+          handleOnClose();
+        }
+      }}
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center px-4 z-[2000]"
+    >
+      <div
+        ref={formRef}
+        className="bg-surface p-4 sm:p-6 rounded-xl border border-white/20 shadow-2xl w-[90%] max-w-96"
+      >
         <h2 className="text-lg text-center sm:text-xl font-bold text-text-primary mb-3 sm:mb-4">
           {step === "email" ? "Join" : "Enter OTP"}
         </h2>
 
         {step === "email" ? (
           <form onSubmit={handleSendOtp} className="flex flex-col gap-3">
-
             <input
               type="email"
               placeholder="Enter your email"
@@ -77,14 +95,10 @@ export const AuthForm = ({ onClose }) => {
             >
               {loading ? "Sending..." : "Send OTP"}
             </button>
-
           </form>
         ) : (
           <form onSubmit={handleVerifyOtp} className="flex flex-col gap-3">
-
-            <p className="text-sm text-text-secondary">
-              OTP sent to
-            </p>
+            <p className="text-sm text-text-secondary">OTP sent to</p>
 
             <p className="text-sm font-medium text-text-primary truncate">
               {email}
@@ -95,9 +109,7 @@ export const AuthForm = ({ onClose }) => {
               inputMode="numeric"
               placeholder="6-digit OTP"
               value={otp}
-              onChange={(e) =>
-                setOtp(e.target.value.replace(/\D/g, ""))
-              }
+              onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
               maxLength={6}
               autoComplete="one-time-code"
               required
@@ -119,15 +131,10 @@ export const AuthForm = ({ onClose }) => {
             >
               Change email
             </button>
-
           </form>
         )}
 
-        {error && (
-          <p className="text-red-500 text-sm mt-3">
-            {error}
-          </p>
-        )}
+        {error && <p className="text-red-500 text-sm mt-3">{error}</p>}
 
         <button
           onClick={handleOnClose}
@@ -135,9 +142,8 @@ export const AuthForm = ({ onClose }) => {
         >
           Cancel
         </button>
-
       </div>
     </div>,
-    document.body
+    document.body,
   );
 };
