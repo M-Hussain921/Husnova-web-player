@@ -53,8 +53,8 @@ export const AuthForm = ({ onClose }) => {
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center px-4 z-[2000]">
       <div className="bg-surface p-4 sm:p-6 rounded-xl border border-white/20 shadow-2xl shadow-black/20 w-[90%] max-w-96">
 
-        <h2 className="text-lg sm:text-xl font-bold text-text-primary mb-3 sm:mb-4">
-          {step === "email" ? "Login" : "Enter OTP"}
+        <h2 className="text-lg text-center sm:text-xl font-bold text-text-primary mb-3 sm:mb-4">
+          {step === "email" ? "Join" : "Enter OTP"}
         </h2>
 
         {step === "email" ? (
