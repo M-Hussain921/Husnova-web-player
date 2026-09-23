@@ -36,7 +36,9 @@ export const Layout = () => {
           </main>
         </div>
       </div>
-      <Player />
+      <div className="fixed bottom-0 z-2000 w-full">
+        <Player />
+      </div>
     </div>
   );
 };
