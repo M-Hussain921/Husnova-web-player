@@ -102,43 +102,100 @@ export const Navbar = ({ onMenuClick }) => {
 
   return (
     <header
-      className={`px-2.5 sm:px-6 sm:py-2 text-xs sm:text-sm whitespace-nowrap py-1.5 flex items-center justify-between sticky pointer-events-auto top-0 left-0 z-[999] transition-all border-b border-brand-light/40 ${
-        scrolled
-          ? "bg-surface backdrop-blur-3xl"
-          : "bg-transparent backdrop-blur-3xl"
-      }`}
+      className={`
+      sticky
+      top-0
+      left-0
+      z-[999]
+      w-full
+      px-2
+      min-[648px]:px-6
+      py-1.5
+      min-[648px]:py-2
+      border-b
+      border-brand-light/40
+      transition-all
+
+    ${
+      scrolled
+        ? "bg-surface/95 backdrop-blur-3xl"
+        : "bg-surface/80 backdrop-blur-3xl"
+    }
+  `}
     >
       <div className="flex items-center justify-between w-full gap-3">
         <button
-          onClick={() => {
-            onMenuClick();
-          }}
-          className="lg:hidden text-text-primary text-2xl shrink-0"
+          type="button"
+          onClick={onMenuClick}
+          className="
+          lg:hidden
+          w-9
+          h-9
+          shrink-0
+          flex
+          items-center
+          justify-center
+          rounded-lg
+          text-text-primary
+          hover:bg-brand-light/10
+          transition-colors"
+          aria-label="Open menu"
         >
-          <FiMenu />
+          <FiMenu className="text-xl" />
         </button>
         <form
           onSubmit={handleSubmit}
           ref={containerRef}
-          className="relative flex-1 max-w-[140px] xs:max-w-xs sm:max-w-80 min-w-0 group"
+          className="
+          relative
+          flex-1
+          min-w-0
+          w-full
+          min-[648px]:max-w-80
+          group"
         >
           <input
             type="text"
-            placeholder="Search for artists, songs, or albums..."
+            placeholder="Search artists, songs, albums..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onFocus={() => input.trim() && setDropdownOpen(true)}
-            className="w-full bg-surface text-sm text-text-primary pl-9 sm:pl-11 pr-3 sm:pr-4 py-2 sm:py-2.5 rounded-2xl outline-none border border-brand-light/40 focus:border-brand-primary transition-all placeholder-text-secondary"
+            className="
+            w-full
+            h-9
+            min-[648px]:h-10
+            bg-brand-dark/10
+            text-xs
+            min-[648px]:text-sm
+            text-text-primary
+            pl-9
+            min-[648px]:pl-10
+            pr-3
+            rounded-xl
+            min-[648px]:rounded-2xl
+            outline-none
+            transition-all
+            placeholder:text-text-secondary
+            truncate"
           />
           <button
             type="submit"
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary group-focus-within:text-brandPink transition-colors"
+            className="
+            absolute
+            left-3
+            min-[648px]:left-3.5
+            top-1/2
+            -translate-y-1/2
+            text-text-secondary
+            group-focus-within:text-brand-primary
+            transition-colors"
+            aria-label="Search"
           >
-            <FiSearch className="text-lg" />
+            <FiSearch className="text-base min-[648px]:text-lg" />
           </button>
 
           {dropdownOpen && (
-            <div className="absolute top-full mt-2 w-full bg-surface border border-brand-light/40 rounded-xl shadow-xl max-h-96 overflow-y-auto z-[1200]">
+            <div className="absolute top-full mt-2 w-full bg-surface rounded-xl max-h-96 overflow-y-auto z-[1200]">
               {!hasAnyResults && (
                 <p className="px-4 py-3 text-sm text-text-secondary">
                   No results found.
@@ -227,12 +284,41 @@ export const Navbar = ({ onMenuClick }) => {
             <LogoutButton onClick={() => logOut()} className="mr-2 text-base" />
           </div>
         ) : (
-          <div className="flex items-center space-x-4">
+          <div
+            className="
+            flex
+            items-center
+            shrink-0"
+          >
             <button
               onClick={() => setAuthformOpen(true)}
-              className="text-text-secondary text-sm flex justify-center font-semibold  px-2.5 sm:px-6 py-1.5 sm:py-2 text-xs sm:text-sm whitespace-nowrap rounded-2xl hover:bg-brand-light hover:text-white hover:border-none transition-all"
+              className="
+              flex
+              items-center
+              justify-center
+              shrink-0
+              px-2
+              min-[648px]:px-3
+              py-1.5
+              min-[648px]:py-2
+              rounded-xl
+              text-xs
+              min-[648px]:text-sm
+              font-semibold
+              text-text-secondary
+              hover:bg-brand-light/10
+              hover:text-white
+              transition-all"
             >
-              <FiUser className="mr-2 text-base" /> Join
+              <FiUser
+                className="
+                mr-1.5
+                min-[648px]:mr-2
+                text-sm
+                min-[648px]:text-base"
+              />
+
+              <span>Join</span>
             </button>
           </div>
         )}
