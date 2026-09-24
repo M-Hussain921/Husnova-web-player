@@ -5,8 +5,6 @@ import {
   FiUsers,
   FiHeart,
   FiList,
-  FiMusic,
-  FiX,
 } from "react-icons/fi";
 import { NavLink } from "react-router-dom";
 
@@ -58,6 +56,18 @@ export const Sidebar = ({ isOpen, onClose }) => {
 
   return (
     <>
+      {isOpen && (
+        <div
+          className="
+            fixed inset-0
+            bg-black/50
+            backdrop-blur-[2px]
+            z-[900]
+            lg:hidden
+          "
+        />
+      )}
+
       <aside
         ref={sidebarRef}
         className={`
@@ -65,31 +75,39 @@ export const Sidebar = ({ isOpen, onClose }) => {
           top-0
           left-0
           z-[1001]
-          w-60
+          w-[82vw]
+          max-w-60
+          h-dvh
           bg-surface
-          border-brand-light/20
+          border-r
+          border-brand-light/15
           flex
           flex-col
-          rounded-br-2xl
           overflow-hidden
           transition-transform
           duration-300
           ease-out
-          ${isOpen ? "translate-x-0" : "-translate-x-[calc(100%+1rem)]"}
+          ${
+            isOpen
+              ? "translate-x-0"
+              : "-translate-x-full"
+          }
+
           lg:translate-x-0
           lg:z-40
         `}
       >
         <div
           className="
-            relative
+            shrink-0
             flex
             items-center
             justify-center
-
-            px-4
+            px-3
             py-4
-
+            sm:px-4
+            sm:py-5
+            lg:py-3.5
             border-b
             border-brand-light/15
           "
@@ -98,9 +116,13 @@ export const Sidebar = ({ isOpen, onClose }) => {
             src={BrandLogo}
             alt="Husnova"
             className="
-              w-36
+              w-28
               h-auto
               object-contain
+              sm:w-32
+              md:w-34
+              lg:w-32
+              xl:w-36
             "
           />
         </div>
@@ -108,19 +130,36 @@ export const Sidebar = ({ isOpen, onClose }) => {
         <nav
           className="
             flex-1
+            min-h-0
             overflow-y-auto
-            px-3
+            px-2
             py-4
+            sm:px-3
+            sm:py-5
             scrollbar-thin
           "
         >
           {menuSections.map((section) => (
-            <div key={section.title} className="mb-6 last:mb-0">
+            <div
+              key={section.title}
+              className="
+                mb-6
+                sm:mb-7
+                lg:mb-6
+                xl:mb-7
+              "
+            >
               <p
                 className="
-                  px-3
+                  px-2
+                  sm:px-3
                   mb-2
-                  text-[10px]
+                  sm:mb-2.5
+                  text-[9px]
+                  sm:text-[10px]
+                  md:text-[10px]
+                  lg:text-[9px]
+                  xl:text-[10px]
                   font-semibold
                   uppercase
                   tracking-[0.14em]
@@ -130,7 +169,12 @@ export const Sidebar = ({ isOpen, onClose }) => {
                 {section.title}
               </p>
 
-              <ul className="space-y-1">
+              <ul
+                className="
+                  space-y-0.5
+                  sm:space-y-1
+                "
+              >
                 {section.links.map((link) => {
                   const Icon = link.icon;
 
@@ -140,59 +184,83 @@ export const Sidebar = ({ isOpen, onClose }) => {
                         to={link.to}
                         end={link.to === "/"}
                         onClick={onClose}
-                        className={({ isActive }) =>
-                          `
-                            group
-                            flex
-                            items-center
-                            gap-2.5
-                            w-full
-                            px-2
-                            py-1.5
-                            rounded-xl
-                            text-sm
-                            font-medium
-                            transition-all
-                            duration-200
-                           
-                          `
-                        }
+                        className="
+                          group
+                          relative
+                          flex
+                          items-center
+                          gap-2.5
+                          sm:gap-3
+                          w-full
+                          px-2
+                          sm:px-2.5
+                          py-2
+                          sm:py-2.5
+                          rounded-lg
+                          sm:rounded-xl
+                          transition-all
+                          duration-200
+                        "
                       >
                         {({ isActive }) => (
                           <>
+                            {isActive && (
+                              <span
+                                className="
+                                  absolute
+                                  left-0
+                                  w-0.5
+                                  h-5
+                                  rounded-full
+                                  bg-brand-primary
+                                "
+                              />
+                            )}
+
                             <span
                               className={`
-                                relative
                                 shrink-0
                                 flex
                                 items-center
                                 justify-center
-                                rounded-lg
-                                transition-all
-                                duration-200
+                                transition-colors
                                 ${
                                   isActive
-                                    ? `
-                                      text-white
-                                    `
-                                    : `
-                                      text-text-secondary
-                                    `
+                                    ? "text-brand-primary"
+                                    : "text-text-secondary group-hover:text-text-primary"
                                 }
                               `}
                             >
-                              <Icon className="text-[17px]" />
+                              <Icon
+                                className="
+                                  text-[15px]
+                                  sm:text-[17px]
+                                  md:text-[18px]
+                                  lg:text-[16px]
+                                  xl:text-[17px]
+                                "
+                              />
                             </span>
 
-                            <span className={`truncate  ${
+                            <span
+                              className={`
+                                truncate
+                                font-medium
+                                text-[12px]
+                                sm:text-sm
+                                md:text-sm
+                                lg:text-[13px]
+                                xl:text-sm
+                                transition-colors
+                                ${
                                   isActive
-                                    ? `
-                                      text-white
-                                    `
-                                    : `
-                                      text-text-secondary
-                                    `
-                                }`}>{link.name}</span>
+                                    ? "text-text-primary"
+                                    : "text-text-secondary group-hover:text-text-primary"
+                                }
+                              `}
+                            >
+                              {link.name}
+                            </span>
                           </>
                         )}
                       </NavLink>
@@ -206,24 +274,13 @@ export const Sidebar = ({ isOpen, onClose }) => {
 
         <div
           className="
-            px-4
-            py-2
-
+            shrink-0
+            h-3
+            sm:h-4
             border-t
-            border-brand-light/15
+            border-brand-light/10
           "
-        >
-          <div
-            className="
-              flex
-              items-center
-              gap-2
-
-              text-[11px]
-              text-text-secondary/50
-            "
-          ></div>
-        </div>
+        />
       </aside>
     </>
   );

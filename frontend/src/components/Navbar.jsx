@@ -103,42 +103,33 @@ export const Navbar = ({ onMenuClick }) => {
   return (
     <header
       className={`
-      sticky
-      top-0
-      left-0
-      z-[999]
-      w-full
-      px-2
-      min-[648px]:px-6
-      py-1.5
-      min-[648px]:py-2
-      border-b
-      border-brand-light/40
-      transition-all
-
+        sticky
+        top-0
+        left-0
+        z-[50]
+        w-full
+        px-2.5
+        sm:px-4
+        lg:px-6
+        py-1.5
+        sm:py-2
+        text-xs
+        sm:text-sm
+        border-b
+        border-brand-light/20
+        transition-all
     ${
       scrolled
-        ? "bg-surface/95 backdrop-blur-3xl"
-        : "bg-surface/80 backdrop-blur-3xl"
+        ? "bg-surface/95 backdrop-blur-xl"
+        : "bg-surface/80 backdrop-blur-xl"
     }
   `}
-    >
+>
       <div className="flex items-center justify-between w-full gap-3">
         <button
           type="button"
           onClick={onMenuClick}
-          className="
-          lg:hidden
-          w-9
-          h-9
-          shrink-0
-          flex
-          items-center
-          justify-center
-          rounded-lg
-          text-text-primary
-          hover:bg-brand-light/10
-          transition-colors"
+          className="lg:hidden text-text-primary text-2xl shrink-0"
           aria-label="Open menu"
         >
           <FiMenu className="text-xl" />

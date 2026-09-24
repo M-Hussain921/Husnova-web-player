@@ -1,44 +1,56 @@
 import { Outlet } from "react-router-dom";
 import { useContext, useState } from "react";
+
 import { Sidebar } from "./Sidebar";
 import { Navbar } from "./Navbar";
 import { Player } from "./Player";
 import { Footer } from "./Footer";
 import { Loader } from "./Loader";
+
 import { MusicContext } from "../context/MusicContext";
+
 export const Layout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { loading } = useContext(MusicContext);
+
+  const { loading, currentSong } = useContext(MusicContext);
 
   if (loading) return <Loader />;
 
-  const onMenuClick = () => {
-    setSidebarOpen(true);
-  };
-
-  const onClose = () => {
-    setSidebarOpen(false);
-  };
-
   return (
-    <div className="flex flex-col h-screen h-dvh bg-bg text-text-primary overflow-hidden">
-      <div className="flex flex-1 overflow-hidden min-h-0">
-        <Sidebar isOpen={sidebarOpen} onClose={onClose} />
+    <div className="h-dvh bg-bg text-text-primary overflow-hidden">
+      <Sidebar
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+      />
 
-        <div className="flex-1 flex flex-col min-h-0 min-w-0">
-          <Navbar onMenuClick={onMenuClick} />
+      <div className="h-full flex flex-col min-w-0 lg:ml-60">
+        <Navbar
+          onMenuClick={() => setSidebarOpen(true)}
+        />
 
-          <main className="flex-1 overflow-y-auto flex flex-col">
-            <div className="flex-1">
-              <Outlet />
-            </div>
-            <Footer />
-          </main>
+        <main
+          className={`
+            flex-1
+            min-h-0
+            overflow-y-auto
+            flex
+            flex-col
+            ${currentSong ? "pb-24" : "pb-0"}
+          `}
+        >
+          <div className="flex-1">
+            <Outlet />
+          </div>
+
+          <Footer />
+        </main>
+      </div>
+
+      {currentSong && (
+        <div className="fixed bottom-0 left-0 right-0 z-[2000]">
+          <Player />
         </div>
-      </div>
-      <div className="fixed bottom-0 z-2000 w-full">
-        <Player />
-      </div>
+      )}
     </div>
   );
 };
